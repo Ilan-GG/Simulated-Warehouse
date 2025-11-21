@@ -16,6 +16,7 @@ public class RobotScript : MonoBehaviour
     private Transform currShelfSpot;
 
     private bool hasBox = false;
+    private bool hasFinished = false;
 
     void Start()
     {
@@ -25,6 +26,14 @@ public class RobotScript : MonoBehaviour
 
     void Update()
     {
+        if (hasFinished)
+        {
+            Vector3 waitPos = transform.position + transform.forward * -2f;  // 20 metros hacia atrás
+            agent.SetDestination(waitPos);
+
+            return;
+        }
+
         if (!hasBox)
         {
             // Si no tenemos caja, seguir buscando
@@ -83,12 +92,15 @@ public class RobotScript : MonoBehaviour
 
         currBox = nearest;
 
-        // La Asigana para evitar que se roben cajas
-        BoxScript CurrBs = currBox.GetComponent<BoxScript>();
-        CurrBs.isAssigned = true;
 
-        if (currBox == null)
-            Debug.Log("No boxes available (all are stored).");
+        if (currBox == null) {
+            Debug.Log("No boxes available (all are stored or Assigned).");
+            hasFinished = true;
+        }
+        else {
+            BoxScript CurrBs = currBox.GetComponent<BoxScript>();
+            CurrBs.isAssigned = true;
+        }
     }
 
 
@@ -118,7 +130,7 @@ public class RobotScript : MonoBehaviour
         }
 
         currShelf = nearestShelf;
-        currShelfSpot = null; // El spot NO se calcula aquí
+        // currShelfSpot = null; // El spot NO se calcula aquí
 
     }
     
