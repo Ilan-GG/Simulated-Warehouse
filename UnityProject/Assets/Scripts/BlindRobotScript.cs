@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
-public class RobotScript : MonoBehaviour
+public class BlindRobotScript : MonoBehaviour
 {
     public string targetTag = "Box";
     public string shelfTag = "Shelf";
@@ -16,7 +17,13 @@ public class RobotScript : MonoBehaviour
     private Transform currShelfSpot;
 
     private bool hasBox = false;
-    private bool hasFinished = false;
+    // private bool hasFinished = false;
+
+    private List<GameObject> knownBoxes = new List<GameObject>();
+
+    private enum BotState { Wander, GoingToKnownBox, Delivering }
+    private BotState state = BotState.Wander;
+
 
     void Start()
     {
@@ -26,48 +33,53 @@ public class RobotScript : MonoBehaviour
 
     void Update()
     {
-        if (hasFinished)
+
+        switch (state)
         {
-            Vector3 waitPos = transform.position + transform.forward * -0.2f;  // 20 metros hacia atrás
-            agent.SetDestination(waitPos);
+            case BotState.Wander:
+                Wander();
+                break;
 
-            return;
-        }
+            case BotState.GoingToKnownBox:
+                if (currBox == null)
+                {
+                    FindClosestBox();
+                    return;
+                }
+                agent.SetDestination(currBox.transform.position);
+                break;
 
-        if (!hasBox)
-        {
-            // Si no tenemos caja, seguir buscando
-            if (currBox == null)
-            {
-                FindClosestBox();
-                return;
-            }
+            case BotState.Delivering:
+                if (currShelf == null)
+                {
+                    FindClosestShelf();
+                    return;
+                }
 
-            // Seguir moviéndose hacia la caja
-            agent.SetDestination(currBox.transform.position);
-        }
-        else
-        {
-            // --- Si tenemos una caja, ir al shelf ---
-            if (currShelf == null)
-            {
-                FindClosestShelf();
-                return;
-            }
-
-            agent.SetDestination(currShelf.transform.position);
+                agent.SetDestination(currShelf.transform.position);
+                break;
         }
     }
 
+    void Wander()
+    {
+        if (!agent.hasPath || agent.remainingDistance < 0.5f)
+        {
+            Vector3 randomDir = Random.insideUnitSphere * 10f;
+            randomDir.y = 0;
+
+            Vector3 randomPos = transform.position + randomDir;
+
+            agent.SetDestination(randomPos);
+        }
+    }
     
     void FindClosestBox()
     {
-        GameObject[] boxes = GameObject.FindGameObjectsWithTag(targetTag);
-
         float minDist = Mathf.Infinity;
         GameObject nearest = null;
 
-        foreach (GameObject b in boxes)
+        foreach (GameObject b in knownBoxes)
         {
             BoxScript bs = b.GetComponent<BoxScript>();
 
@@ -86,8 +98,10 @@ public class RobotScript : MonoBehaviour
         currBox = nearest;
 
         if (currBox == null) {
-            Debug.Log("No boxes available (all are stored or Assigned).");
-            hasFinished = true;
+            //Debug.Log("No boxes available (all are stored or Assigned).");
+            // hasFinished = true;
+
+            state = BotState.Wander;
         } else {
             BoxScript CurrBs = currBox.GetComponent<BoxScript>();
             CurrBs.isAssigned = true;
@@ -127,13 +141,19 @@ public class RobotScript : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (hasBox) return;
-        if (currBox == null) return;
-
-        if (other.gameObject == currBox)
+        if (other.CompareTag(targetTag))
         {
-            PickUpBox(other.gameObject);
+            if (!knownBoxes.Contains(other.gameObject))
+                knownBoxes.Add(other.gameObject);
+
+            if (!hasBox)
+            {
+                BoxScript CurrBs = other.gameObject.GetComponent<BoxScript>();
+                CurrBs.isAssigned = true;
+                PickUpBox(other.gameObject);
+            }
         }
+
     }
 
     void PickUpBox(GameObject box)
@@ -153,6 +173,8 @@ public class RobotScript : MonoBehaviour
 
         hasBox = true;
         currBox = null;
+        state = BotState.Delivering;
+        //knownBoxes.Remove(box);
     }
 
     private void OnTriggerStay(Collider other)
@@ -199,6 +221,8 @@ public class RobotScript : MonoBehaviour
         hasBox = false;
         currShelf = null;
         currShelfSpot = null;
+
+        state = BotState.GoingToKnownBox;
 
         FindClosestBox();
     }

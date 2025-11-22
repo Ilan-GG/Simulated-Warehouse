@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RobotScript : MonoBehaviour
+public class RobotScriptOld : MonoBehaviour
 {
     public string targetTag = "Box";
     public string shelfTag = "Shelf";

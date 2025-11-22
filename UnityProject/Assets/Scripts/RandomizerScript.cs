@@ -44,8 +44,9 @@ public class RandomizerScript : MonoBehaviour
 
     Vector3 GetRandomPosition()
     {
-        float x = Random.Range(-areaSize.x / 2f, areaSize.x / 2f);
-        float z = Random.Range(-areaSize.y / 2f, areaSize.y / 2f);
+        int x = Random.Range(-(int)areaSize.x / 2, (int)areaSize.x / 2);
+        int z = Random.Range(-(int)areaSize.y / 2, (int)areaSize.y / 2);
+
         return new Vector3(x, yPos, z);
     }
 

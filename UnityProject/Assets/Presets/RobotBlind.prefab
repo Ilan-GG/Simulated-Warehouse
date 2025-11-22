@@ -44,10 +44,10 @@ GameObject:
   - component: {fileID: 5114468611713003586}
   - component: {fileID: 7489881164280552474}
   - component: {fileID: 5316837137123725743}
-  - component: {fileID: 4249433013763783558}
+  - component: {fileID: -3636405609691555740}
   - component: {fileID: 4784476916399309229}
   m_Layer: 3
-  m_Name: Robot
+  m_Name: RobotBlind
   m_TagString: Bot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,7 +168,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4249433013763783558
+--- !u!114 &-3636405609691555740
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,13 +177,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5458342076717266659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10468e5f55f3c294fb95022447be73c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b9b138764abdea478b5efdb43fe3da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Box
   shelfTag: Shelf
-  grabPoint: {fileID: 733361736846643356}
-  grabDistance: 1
+  grabPoint: {fileID: 0}
+  grabDistance: 2
 --- !u!195 &4784476916399309229
 NavMeshAgent:
   m_ObjectHideFlags: 0
