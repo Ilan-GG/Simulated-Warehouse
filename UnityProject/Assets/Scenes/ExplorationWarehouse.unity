@@ -809,9 +809,9 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.13333334
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 57a364d57cefa6a40a3639c45ecdedc3, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: f86f1cf6d966cb144875e2f68e87a023, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1152277213
 Transform:
@@ -1222,7 +1222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08954a06454e47444ab97d6ddd470f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  botPrefab: {fileID: 5458342076717266659, guid: dd1cfbbbbe24f3a4684436e492faeeba, type: 3}
+  botPrefab: {fileID: 5458342076717266659, guid: df74e14c8d3432b408553b124e2f868e, type: 3}
   shelfPrefab: {fileID: 6553915949909145754, guid: f1da303d32106b7438ccb71d928601bc, type: 3}
   boxPrefab: {fileID: 5363737963342531658, guid: 576367a7f46168b41a261abebcc79c14, type: 3}
   botCount: 5

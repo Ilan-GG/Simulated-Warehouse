@@ -183,7 +183,7 @@ MonoBehaviour:
   targetTag: Box
   shelfTag: Shelf
   grabPoint: {fileID: 733361736846643356}
-  grabDistance: 1
+  grabDistance: 1.5
 --- !u!195 &4784476916399309229
 NavMeshAgent:
   m_ObjectHideFlags: 0

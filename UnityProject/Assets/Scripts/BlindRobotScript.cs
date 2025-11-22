@@ -149,8 +149,12 @@ public class BlindRobotScript : MonoBehaviour
             if (!hasBox)
             {
                 BoxScript CurrBs = other.gameObject.GetComponent<BoxScript>();
-                CurrBs.isAssigned = true;
-                PickUpBox(other.gameObject);
+                if(!CurrBs.isAssigned)
+                {
+                    CurrBs.isAssigned = true;
+                    PickUpBox(other.gameObject); 
+                }
+                
             }
         }
 
