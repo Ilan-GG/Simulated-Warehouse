@@ -39,12 +39,10 @@ public class RobotScriptTest : MonoBehaviour
         switch (state)
         {
             case BotState.Searching:
-                Debug.Log("Searching...");
                 RandomTrip();
                 break;
 
             case BotState.PickingUp:
-                Debug.Log("Picking Up Known Box...");
                 if (currBox == null)
                 {
                     FindClosestBox();
@@ -54,10 +52,10 @@ public class RobotScriptTest : MonoBehaviour
                 break;
 
             case BotState.Delivering:
-                Debug.Log("Delivering...");
                 if(currShelf == null)
                 {
                     FindClosestShelf(); 
+                    Debug.Log("Delivering...");
                 }
                 agent.SetDestination(currShelf.transform.position);
                 DeliverBox();
@@ -69,6 +67,9 @@ public class RobotScriptTest : MonoBehaviour
     {
         if(agent.remainingDistance < 0.5f)
         {
+            
+            Debug.Log("Searching...");
+            
             int x = Random.Range(-(int)areaSize.x / 2, (int)areaSize.x / 2);
             int z = Random.Range(-(int)areaSize.y / 2, (int)areaSize.y / 2);
 
@@ -92,6 +93,8 @@ public class RobotScriptTest : MonoBehaviour
 
     void FindClosestBox()
     {
+        Debug.Log("Picking Up Known Box...");
+
         float minDist = Mathf.Infinity;
         GameObject nearest = null;
 
