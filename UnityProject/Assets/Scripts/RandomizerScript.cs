@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.AI.Navigation;
+using System.Collections;
 
 public class RandomizerScript : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class RandomizerScript : MonoBehaviour
     void Start()
     {
         GenerateObjects();
+        //DynamicBake();
         BakeNavMesh();
     }
 
@@ -60,5 +62,12 @@ public class RandomizerScript : MonoBehaviour
         {
             Debug.LogWarning("NavMeshSurface no asignado.");
         }
+    }
+
+    IEnumerator DynamicBake()
+    {
+        BakeNavMesh();
+        yield return new WaitForSeconds(5.0f);
+        DynamicBake();
     }
 }

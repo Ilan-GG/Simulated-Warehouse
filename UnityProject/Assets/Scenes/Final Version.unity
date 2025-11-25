@@ -1341,7 +1341,7 @@ MonoBehaviour:
   boxPrefab: {fileID: 5363737963342531658, guid: 576367a7f46168b41a261abebcc79c14, type: 3}
   botCount: 5
   shelfCount: 0
-  boxCount: 30
+  boxCount: 35
   areaSize: {x: 25, y: 25}
   yPos: 0.5
   navMeshSurface: {fileID: 1152277212}
